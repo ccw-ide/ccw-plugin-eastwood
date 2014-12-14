@@ -6,6 +6,9 @@
   (:require [clojure.java.io      :as io])
   (:require [ccw.e4.dsl           :refer :all]))
 
+(def eastwood-version "Version to automatically conj to :plugins"
+  "0.2.0")
+
 (ma/register-marker-type!
   {:id "ccw-plugin-eastwood", :name "Eastwood Linter", :persistent true})
 
@@ -64,4 +67,9 @@
   "Cmd+U E"
   [context-map]
   (when-let [project (e/context-map->project context-map)]
-    (future (e/ui (l/lein project, "eastwood", :result-listener result-listener)))))
+    (future
+      (e/ui
+        (l/lein
+          project,
+          (str "update-in :plugins conj \"[jonase/eastwood \\\"" eastwood-version "\\\"]\" -- eastwood"),
+          :result-listener result-listener)))))
