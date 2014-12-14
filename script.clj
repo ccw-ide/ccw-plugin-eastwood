@@ -62,6 +62,6 @@
 (defcommand refresh-eastwood
   "Refresh Eastwood Linter markers"
   "Cmd+U E"
-  [{:keys [active-selection active-part]}]
-  (when-let [project (e/project active-selection)] ; TODO work from within editor
+  [context-map]
+  (when-let [project (e/context-map->project context-map)]
     (future (e/ui (l/lein project, "eastwood", :result-listener result-listener)))))
