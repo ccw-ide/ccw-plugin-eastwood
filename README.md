@@ -22,11 +22,6 @@ It is recommended to layout User Plugins inside this folder by mirroring Github'
 
 ## Usage
 
-Add a global Leiningen dependency to Eastwood in your `~/.lein/profiles.clj`
-```clojure
-echo '{:user {:plugins [[jonase/eastwood "0.2.0"]] }}' > ~/.lein/profiles.clj
-```
-
 Use `Cmd+U E` on OS X, `Ctrl+U E` on Windows/Linux when the focus is on the Package Explorer or on an Editor.
 
 This will start Leiningen for the project, and run the 'eastwood' task. A console view will be created, and you'll be able to see the output from the `lein eastwood` task. The plugin will then automatically convert Eastwood hints to Eclipse Problem Markers with a `warning` severity.
