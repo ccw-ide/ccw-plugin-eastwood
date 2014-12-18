@@ -1,7 +1,7 @@
 (ns ccw-plugin-eastwood
   (:require [ccw.api.markers      :as ma])
   (:require [ccw.eclipse          :as e])
-  (:require [ccw.leiningen.launch :as l])
+  (:require [ccw.leiningen.launch :as ll])
   (:require [clojure.string       :as str])
   (:require [clojure.java.io      :as io])
   (:require [ccw.e4.dsl           :refer :all]))
@@ -51,7 +51,7 @@
      :line-number (:line hint)
      :message (:linter+msg hint)}))
 
-(defn result-listener
+(defn result-listener!
   "Listener that receives the String corresponding to stdout, stderr, and the exit code
    of a terminated process.
    Gather all the hints, the associated projects, remove markers for those projects,
@@ -69,7 +69,8 @@
   (when-let [project (e/context-map->project context-map)]
     (future
       (e/ui
-        (l/lein
+        (ll/lein
           project,
           (str "update-in :plugins conj \"[jonase/eastwood \\\"" eastwood-version "\\\"]\" -- eastwood"),
-          :result-listener result-listener)))))
+          :launch-in-background   true,
+          :result-listener result-listener!)))))
