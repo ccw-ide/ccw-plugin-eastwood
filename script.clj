@@ -67,10 +67,9 @@
   "Cmd+U E"
   [context-map]
   (when-let [project (e/context-map->project context-map)]
-    (future
-      (e/ui
-        (ll/lein
-          project,
-          (str "update-in :plugins conj \"[jonase/eastwood \\\"" eastwood-version "\\\"]\" -- eastwood"),
-          :launch-in-background   true,
-          :result-listener result-listener!)))))
+    (e/async-ui
+      (ll/lein
+        project,
+        (str "update-in :plugins conj \"[jonase/eastwood \\\"" eastwood-version "\\\"]\" -- eastwood"),
+        :launch-in-background   true,
+        :result-listener result-listener!))))
