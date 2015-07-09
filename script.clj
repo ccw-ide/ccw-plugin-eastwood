@@ -1,3 +1,6 @@
+(require '[ccw.bundle :as b])
+(b/expect-bundle "ccw.core" "0.32.0")
+
 (ns ccw-plugin-eastwood
   (:require [ccw.api.markers      :as ma])
   (:require [ccw.eclipse          :as e])
