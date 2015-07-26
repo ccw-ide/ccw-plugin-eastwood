@@ -4,6 +4,7 @@
 (ns ccw-plugin-eastwood
   (:require [ccw.api.markers      :as ma])
   (:require [ccw.eclipse          :as e])
+  (:require [ccw.swt             :as swt])
   (:require [ccw.leiningen.launch :as ll])
   (:require [clojure.string       :as str])
   (:require [clojure.java.io      :as io])
@@ -70,7 +71,7 @@
   "Cmd+U E"
   [context-map]
   (when-let [project (e/context-map->project context-map)]
-    (e/async-ui
+    (swt/doasync
       (ll/lein
         project,
         (str "update-in :plugins conj \"[jonase/eastwood \\\"" eastwood-version "\\\"]\" -- eastwood"),
