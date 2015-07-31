@@ -27,7 +27,7 @@
    return a {:file :line :col :linter+msg} map, or nil"
   [directory s]
   (let [[file line col linter+msg] (str/split s #":" 4)]
-    (when linter+msg
+    (when (and linter+msg (re-matches #"\d+" line))
       {:file (.getAbsolutePath (io/file directory file))
        :line (Integer/parseInt line)
        :col  (Integer/parseInt col)
