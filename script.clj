@@ -2,13 +2,14 @@
 (b/expect-bundle "ccw.core" "0.32.0")
 
 (ns ccw-plugin-eastwood
-  (:require [ccw.api.markers      :as ma])
-  (:require [ccw.eclipse          :as e])
-  (:require [ccw.swt             :as swt])
-  (:require [ccw.leiningen.launch :as ll])
-  (:require [clojure.string       :as str])
-  (:require [clojure.java.io      :as io])
-  (:require [ccw.e4.dsl           :refer :all]))
+  (:require [ccw.core.trace       :as t]
+            [ccw.api.markers      :as ma]
+            [ccw.eclipse          :as e]
+            [ccw.swt              :as swt]
+            [ccw.leiningen.launch :as ll]
+            [clojure.string       :as str]
+            [clojure.java.io      :as io]
+            [ccw.e4.dsl           :refer :all]))
 
 (def eastwood-version "Version to automatically conj to :plugins"
   "0.2.0")
