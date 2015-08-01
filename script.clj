@@ -1,5 +1,5 @@
 (require '[ccw.bundle :as b])
-(b/expect-bundle "ccw.core" "0.32.0")
+(b/expect-bundle "ccw.core" "0.32.1")
 
 (ns ccw-plugin-eastwood
   (:require [ccw.core.trace       :as t]
