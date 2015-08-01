@@ -15,7 +15,7 @@
   "0.2.0")
 
 (ma/register-marker-type!
-  {:id "ccw-plugin-eastwood", :name "Eastwood Linter", :persistent true})
+  {:type-id "ccw-plugin-eastwood", :name "Eastwood Linter", :persistent true})
 
 (defn read-directory
   "directory entry format: Entering directory `<directory-path>'
@@ -51,10 +51,10 @@
   [hint]
   (ma/create-marker!
     (e/resource (:file hint))
-    {:type     "ccw-plugin-eastwood"
-     :severity :warning
+    {:type-id     "ccw-plugin-eastwood"
+     :severity    :warning
      :line-number (:line hint)
-     :message (:linter+msg hint)}))
+     :message     (:linter+msg hint)}))
 
 (defn result-listener!
   "Listener that receives the String corresponding to stdout, stderr, and the exit code
@@ -62,9 +62,7 @@
    Gather all the hints, the associated projects, remove markers for those projects,
    then add markers for the hints."
   [str-out str-err exit-code]
-  (let [hints (read-hints str-out)
-        projects (->> hints (map :file) (map e/resource) (map e/project) distinct)]
-    (doseq [p projects] (ma/delete-markers! p))
+  (let [hints (read-hints str-out)]
     (doseq [hint hints] (create-eastwood-marker! hint))))
 
 (defcommand refresh-eastwood
@@ -72,6 +70,7 @@
   "Cmd+U E"
   [context-map]
   (when-let [project (e/context-map->project context-map)]
+    (ma/delete-markers! project "ccw-plugin-eastwood")
     (swt/doasync
       (ll/lein
         project,
