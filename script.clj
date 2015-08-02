@@ -2,10 +2,10 @@
 (b/expect-bundle "ccw.core" "0.32.1")
 
 (ns ccw-plugin-eastwood
-  (:require [ccw.core.trace       :as t]
-            [ccw.api.markers      :as ma]
+  (:require [ccw.api.markers      :as ma]
             [ccw.eclipse          :as e]
             [ccw.swt              :as swt]
+            [ccw.events           :as evt]
             [ccw.leiningen.launch :as ll]
             [clojure.string       :as str]
             [clojure.java.io      :as io]
@@ -77,3 +77,16 @@
         (str "update-in :plugins conj \"[jonase/eastwood \\\"" eastwood-version "\\\"]\" -- eastwood"),
         :launch-in-background   true,
         :result-listener result-listener!))))
+
+(defn on-saved-file
+  "react to saved files by removing the Eastwood markers they contain (they may be stale)"
+  [topic {:keys [absolute-path] :as data}]
+  (let [resource     (e/resource absolute-path)
+        stale-prefix "(Maybe stale) "]
+    (doseq [marker    (ma/find-markers resource "ccw-plugin-eastwood")
+            :let      [{:keys [message]} (ma/marker-map marker)]
+            :when     (not (.startsWith message stale-prefix))]
+      (ma/marker-into! marker {:message (str stale-prefix message)
+                               :severity :info}))))
+
+(evt/subscribe :ccw.editor.saved #'on-saved-file)
