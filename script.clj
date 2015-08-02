@@ -48,13 +48,13 @@
 
 (defn create-eastwood-marker!
   "Create an Eclipse Marker corresponding to the given hint"
-  [hint]
+  [{:keys [file line linter+msg] :as hint}]
   (ma/create-marker!
-    (e/resource (:file hint))
+    (e/resource file)
     {:type-id     "ccw-plugin-eastwood"
      :severity    :warning
-     :line-number (:line hint)
-     :message     (:linter+msg hint)}))
+     :line-number line
+     :message     linter+msg}))
 
 (defn result-listener!
   "Listener that receives the String corresponding to stdout, stderr, and the exit code
