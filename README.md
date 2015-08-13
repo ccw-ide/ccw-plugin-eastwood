@@ -2,7 +2,7 @@
 
 This Counterclockwise plugin integrates the Eastwood lint tool (https://github.com/jonase/eastwood) with Counterclockwise.
 
-This plugin's state is under development.
+This plugin's state is production ready.
 
 ## Install
 
